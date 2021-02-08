@@ -127,13 +127,13 @@ class checkBox extends HTMLElement{
     this.setAttribute("group",groupName)
   }
 
-  get toggle(){
-    return this.hasAttribute("toggle")
+  get checkAll(){
+    return this.hasAttribute("checkall")
   }
 
-  set toggle(bool){
-    if(bool) this.setAttribute("toggle","")
-    else this.removeAttribute("toggle")
+  set checkAll(bool){
+    if(bool) this.setAttribute("checkall","")
+    else this.removeAttribute("checkall")
   }
 
 
@@ -154,16 +154,16 @@ class checkBox extends HTMLElement{
     this.checked = !this.checked
 
     let groupMembers = checkBoxProperties.allGroupMembers(this.group)
-    let groupToogle = groupMembers.filter(item=> item.toggle == true).shift()
-    let exceptToggleAndDisabled = groupMembers.filter(item=> item.toggle == false && item.disabled == false && item.checked == false)
-    if (exceptToggleAndDisabled.length == 0) groupToogle.checked = true
-    else groupToogle.checked = false
+    let groupCheckAll = groupMembers.filter(item=> item.checkAll == true).shift()
+    let exceptCheckAllAndDisabled = groupMembers.filter(item=> item.checkAll == false && item.disabled == false && item.checked == false)
+    if (exceptCheckAllAndDisabled.length == 0) groupCheckAll.checked = true
+    else groupCheckAll.checked = false
   }
   
   connectedCallback(){ 
     if(!this.hasDark) this.dark = false
     this.shadow.querySelector(":host>div").addEventListener("click",this.onClick)
-    if(this.toggle) this.shadow.querySelector(":host>div").addEventListener("click",()=>{checkBoxProperties.toggleAll(this)})
+    if(this.checkAll) this.shadow.querySelector(":host>div").addEventListener("click",()=>{checkBoxProperties.toggleAll(this)})
   }
 }
 
@@ -177,19 +177,19 @@ class checkBoxProperties{
     return Array.from(document.querySelectorAll(`ro-checkbox[group=${groupName}]`))
   }
   static getAllValue(groupName){
-    return checkBoxProperties.allGroupMembers(groupName).filter(item=>item.checked==true && item.toggle==false).map(item=>item.value)
+    return checkBoxProperties.allGroupMembers(groupName).filter(item=>item.checked==true && item.checkAll==false).map(item=>item.value)
   }
-  static selectAll(groupName){
+  static checkAll(groupName){
     checkBoxProperties.allGroupMembers(groupName).filter(item=>item.disabled==false).forEach(item=>item.checked = true)
   }
-  static unselectAll(groupName){
+  static uncheckAll(groupName){
     checkBoxProperties.allGroupMembers(groupName).filter(item=>item.disabled==false).forEach(item=>item.checked = false)
   }
   static reverseAll(groupName){
     checkBoxProperties.allGroupMembers(groupName).filter(item=>item.disabled==false).forEach(item=>item.checked = !item.checked)
   }
   static toggleAll(element){
-    if(!element.checked) checkBoxProperties.selectAll(element.group)
-    else checkBoxProperties.unselectAll(element.group)
+    if(!element.checked) checkBoxProperties.checkAll(element.group)
+    else checkBoxProperties.uncheckAll(element.group)
   }
 }
