@@ -169,6 +169,9 @@ class checkBox extends HTMLElement{
       else Object.assign(checkBoxProperties.groupLeaders,{[this.group] : this})
     
     if(this.leader) this.shadow.querySelector(":host>div").addEventListener("click",()=>{checkBoxProperties.toggleAll(this)})
+  
+    Object.defineProperty(this,"leader",{value : this.leader,writable : false})
+    Object.defineProperty(this,"group",{value : this.group,writable : false})
   }
 }
 
@@ -197,7 +200,7 @@ class checkBoxProperties{
     checkBoxProperties.group(groupName).availables.forEach(item=>item.checked = false)
   }
   static reverseAll(groupName){
-    checkBoxProperties.group(groupName).availables.forEach(item=>item.checked = !item.checked)
+    checkBoxProperties.group(groupName).availables.forEach(item=>item.checked =! item.checked)
   }
   static toggleAll(element){
     if(!element.checked) checkBoxProperties.checkAll(element.group)
