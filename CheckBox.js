@@ -166,14 +166,13 @@ class checkBox extends HTMLElement{
     if(this.disabled) this.leader = false
     if(this.leader)
       if (checkBoxProperties.group(this.group).leader) this.leader = false
-      else Object.assign(checkBoxProperties.groupLeaders,{[this.group]:this})
+      else Object.assign(checkBoxProperties.groupLeaders,{[this.group] : this})
     
     if(this.leader) this.shadow.querySelector(":host>div").addEventListener("click",()=>{checkBoxProperties.toggleAll(this)})
   }
 }
 
 checkBox.prototype.darkswitcher = true
-
 customElements.define("ro-checkbox",checkBox)
 
 class checkBoxProperties{
@@ -184,10 +183,10 @@ class checkBoxProperties{
     return {
       members : Array.from(document.querySelectorAll(`ro-checkbox[group=${groupName}]`)),
       length : Array.from(document.querySelectorAll(`ro-checkbox[group=${groupName}]`)).length,
-      availables : Array.from(document.querySelectorAll(`ro-checkbox[group=${groupName}]`)).filter(item=>item.disabled ==false),
-      checkeds : Array.from(document.querySelectorAll(`ro-checkbox[group=${groupName}]`)).filter(item=>item.leader==false && item.disabled ==false && item.checked==true),
-      uncheckeds : Array.from(document.querySelectorAll(`ro-checkbox[group=${groupName}]`)).filter(item=>item.leader==false && item.disabled ==false && item.checked==false),
-      values : Array.from(document.querySelectorAll(`ro-checkbox[group=${groupName}]`)).filter(item=>item.leader==false && item.disabled ==false && item.checked==true).map(item=>item.value),
+      availables : Array.from(document.querySelectorAll(`ro-checkbox[group=${groupName}]`)).filter(item=>item.disabled == false),
+      checkeds : Array.from(document.querySelectorAll(`ro-checkbox[group=${groupName}]`)).filter(item=>item.leader == false && item.disabled == false && item.checked == true),
+      uncheckeds : Array.from(document.querySelectorAll(`ro-checkbox[group=${groupName}]`)).filter(item=>item.leader == false && item.disabled == false && item.checked == false),
+      values : Array.from(document.querySelectorAll(`ro-checkbox[group=${groupName}]`)).filter(item=>item.leader == false && item.disabled == false && item.checked == true).map(item=>item.value),
       leader : checkBoxProperties.groupLeaders[groupName]
     }
   }
@@ -207,4 +206,4 @@ class checkBoxProperties{
   static groupLeaders
 }
 
-Object.defineProperty(checkBoxProperties,"groupLeaders",{value: new Object(),writable : false})
+Object.defineProperty(checkBoxProperties,"groupLeaders",{value : new Object(),writable : false})
