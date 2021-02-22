@@ -197,13 +197,13 @@ class checkBoxProperties{
     }
   }
   static checkAll(groupName){
-    checkBoxProperties.group(groupName).availables.forEach(item=>item.checked = true)
+    checkBoxProperties.group(groupName).availables.withLeader.forEach(item=>item.checked = true)
   }
   static uncheckAll(groupName){
-    checkBoxProperties.group(groupName).availables.forEach(item=>item.checked = false)
+    checkBoxProperties.group(groupName).availables.withLeader.forEach(item=>item.checked = false)
   }
   static reverseAll(groupName){
-    checkBoxProperties.group(groupName).availables.forEach(item=>item.checked = !item.checked)
+    checkBoxProperties.group(groupName).availables.withLeader.forEach(item=>item.checked = !item.checked)
   }
   static toggleAll(element){
     if(!element.checked) checkBoxProperties.checkAll(element.group)
