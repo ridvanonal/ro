@@ -180,13 +180,16 @@ customElements.define("ro-checkbox",checkBox)
 
 class checkBoxProperties{
   static allDocumentGroups(){
-    return[...new Set(Array.from(document.querySelectorAll("ro-checkbox")).map(item=>item.group))]
+    return[...new Set(Array.from(document.querySelectorAll("ro-checkbox")).filter(item=>item.group != null).map(item=>item.group))]
   }
   static group(groupName){
     return {
       members : Array.from(document.querySelectorAll(`ro-checkbox[group=${groupName}]`)),
       length : Array.from(document.querySelectorAll(`ro-checkbox[group=${groupName}]`)).length,
-      availables : Array.from(document.querySelectorAll(`ro-checkbox[group=${groupName}]`)).filter(item=>item.disabled == false),
+      availables : {
+        withLeader : Array.from(document.querySelectorAll(`ro-checkbox[group=${groupName}]`)).filter(item=>item.disabled == false),
+        withoutLeader : Array.from(document.querySelectorAll(`ro-checkbox[group=${groupName}]`)).filter(item=>item.leader == false && item.disabled == false)
+      },
       checkeds : Array.from(document.querySelectorAll(`ro-checkbox[group=${groupName}]`)).filter(item=>item.leader == false && item.disabled == false && item.checked == true),
       uncheckeds : Array.from(document.querySelectorAll(`ro-checkbox[group=${groupName}]`)).filter(item=>item.leader == false && item.disabled == false && item.checked == false),
       values : Array.from(document.querySelectorAll(`ro-checkbox[group=${groupName}]`)).filter(item=>item.leader == false && item.disabled == false && item.checked == true).map(item=>item.value),
@@ -200,7 +203,7 @@ class checkBoxProperties{
     checkBoxProperties.group(groupName).availables.forEach(item=>item.checked = false)
   }
   static reverseAll(groupName){
-    checkBoxProperties.group(groupName).availables.forEach(item=>item.checked =! item.checked)
+    checkBoxProperties.group(groupName).availables.forEach(item=>item.checked = !item.checked)
   }
   static toggleAll(element){
     if(!element.checked) checkBoxProperties.checkAll(element.group)
